@@ -1,8 +1,8 @@
 name: Create Release
 
 on: 
-  pull_request:
-    types: [closed]
+  push:
+    branches: [release]
 
 jobs:
   deploy:
@@ -17,8 +17,8 @@ jobs:
         uses: amitsingh-007/next-release-tag@v4.1.0
         with:
           github_token: ${{ secrets.SECRET_TOKEN }}
-          tag_prefix: 'v'
-          tag_template: 'i.i.i'
+          tag_prefix: ''
+          tag_template: 'i'
 
       - name: Create Release
         uses: actions/create-release@v1

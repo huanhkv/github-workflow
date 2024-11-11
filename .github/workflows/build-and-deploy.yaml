@@ -1,5 +1,7 @@
+name: Build and deploy
+
 on:
-  push:
+  pull:
     branches: [main]
 
 jobs:
@@ -40,9 +42,6 @@ jobs:
             echo "DEPLOYMENT_REF=${{ github.sha }}" >> $GITHUB_OUTPUT
           fi
           cat $GITHUB_OUTPUT
-      # - uses: cake-digital-bank/reuse-workflow/.github/actions/build-and-push@main
-      #   with:
-      #     version: ${{ steps.variables.outputs.VERSION }}
   matrix-job:
     name: Run Matrix Job
     runs-on: ubuntu-latest
