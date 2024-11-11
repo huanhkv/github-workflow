@@ -1,9 +1,8 @@
 name: Build and deploy
 
 on:
-  pull_request:
+  pull:
     branches: [main]
-    types: [closed]
 
 jobs:
   changed-files:
