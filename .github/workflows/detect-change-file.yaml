@@ -20,9 +20,11 @@ jobs:
           matrix: true
           dir_names: true
           files: |
-            triton-server
-            triton-server-face
-            triton-server-id-card
+            triton-server/**
+            triton-server-face/**/config.pbtxt
+            triton-server-face/**/**/**
+            triton-server-id-card/**/config.pbtxt
+            triton-server-id-card/**/**/**
       - name: List all changed files
         run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
   matrix-job:
