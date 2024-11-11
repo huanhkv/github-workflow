@@ -19,8 +19,6 @@ jobs:
         with:
           matrix: true
           dir_names: true
-          files: |
-            **/Dockerfile
       - name: List all changed files
         run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
   matrix-job:
