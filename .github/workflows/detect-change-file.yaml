@@ -29,6 +29,7 @@ jobs:
         run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
       - id: variables
         run: |
+          echo $GITHUB_OUTPUT
           if [[ "${{ github.ref_type }}" == "tag" ]]; then
             echo "ENV=stage" >> $GITHUB_OUTPUT
             echo "VERSION=${{ github.ref_name }}" >> $GITHUB_OUTPUT
