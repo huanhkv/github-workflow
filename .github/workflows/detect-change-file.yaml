@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.changed-files.outputs.all_changed_files }}
+      ENV: ${{ steps.variables.outputs.ENV }}
+      VERSION: ${{ steps.variables.outputs.VERSION }}
+      DEPLOYMENT_REF: ${{ steps.variables.outputs.DEPLOYMENT_REF }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,6 +27,20 @@ jobs:
             triton-server**/**
       - name: List all changed files
         run: echo '${{ steps.changed-files.outputs.all_changed_files }}'
+      - id: variables
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            echo "ENV=stage" >> $GITHUB_OUTPUT
+            echo "VERSION=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "DEPLOYMENT_REF=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else 
+            echo "ENV=qa" >> $GITHUB_OUTPUT
+            echo "VERSION=$(echo "${{ github.ref_name }}-${GITHUB_SHA:0:7}" )" >> $GITHUB_OUTPUT
+            echo "DEPLOYMENT_REF=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+      # - uses: cake-digital-bank/reuse-workflow/.github/actions/build-and-push@main
+      #   with:
+      #     version: ${{ steps.variables.outputs.VERSION }}
   matrix-job:
     name: Run Matrix Job
     runs-on: ubuntu-latest
@@ -39,3 +56,6 @@ jobs:
       - name: Test
         run: |
           echo ${{ matrix.files }}
+          echo ${{ needs.changed-files.outputs.ENV }}
+          echo ${{ needs.changed-files.outputs.VERSION }}
+          echo ${{ needs.changed-files.outputs.DEPLOYMENT_REF }}
