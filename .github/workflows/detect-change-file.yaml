@@ -39,6 +39,7 @@ jobs:
             echo "VERSION=$(echo "${{ github.ref_name }}-${GITHUB_SHA:0:7}" )" >> $GITHUB_OUTPUT
             echo "DEPLOYMENT_REF=${{ github.sha }}" >> $GITHUB_OUTPUT
           fi
+          cat $GITHUB_OUTPUT
       # - uses: cake-digital-bank/reuse-workflow/.github/actions/build-and-push@main
       #   with:
       #     version: ${{ steps.variables.outputs.VERSION }}
